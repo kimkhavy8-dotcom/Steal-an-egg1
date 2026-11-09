@@ -1,5 +1,78 @@
--- Steal an Egg GUI Script (Khmer Version - Fixed & Optimized)
+-- Steal an Egg GUI Script with Key System & Minimize (Khmer Version)
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
 local CoreGui = game:GetService("CoreGui")
+
+-- លេខកូដសម្ងាត់ (Password Verification)
+local enteredCorrectKey = false
+local success, err = pcall(function()
+    -- ផ្ទាំងបញ្ចូលលេខកូដ (Key System UI)
+    if CoreGui:FindFirstChild("StealAnEggKeyGUI") then
+        CoreGui.StealAnEggKeyGUI:Destroy()
+    end
+
+    local KeyGui = Instance.new("ScreenGui")
+    KeyGui.Name = "StealAnEggKeyGUI"
+    KeyGui.Parent = CoreGui
+
+    local KeyFrame = Instance.new("Frame")
+    KeyFrame.Parent = KeyGui
+    KeyFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
+    KeyFrame.Position = UDim2.new(0.5, -130, 0.5, -80)
+    KeyFrame.Size = UDim2.new(0, 260, 0, 160)
+    KeyFrame.Active = true
+    KeyFrame.Draggable = true
+
+    local UICorner = Instance.new("UICorner")
+    UICorner.CornerRadius = UDim.new(0, 10)
+    UICorner.Parent = KeyFrame
+
+    local Title = Instance.new("TextLabel")
+    Title.Parent = KeyFrame
+    Title.BackgroundColor3 = Color3.fromRGB(45, 45, 65)
+    Title.Size = UDim2.new(1, 0, 0, 40)
+    Title.Font = Enum.Font.GothamBold
+    Title.Text = "🔐 វាយបញ្ចូលលេខកូដ (AIZEN)"
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.TextSize = 14
+
+    local Box = Instance.new("TextBox")
+    Box.Parent = KeyFrame
+    Box.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
+    Box.Position = UDim2.new(0.1, 0, 0.35, 0)
+    Box.Size = UDim2.new(0.8, 0, 0, 35)
+    Box.Font = Enum.Font.Gotham
+    Box.PlaceholderText = "បញ្ចូល Password ទីនេះ..."
+    Box.Text = ""
+    Box.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Box.TextSize = 14
+
+    local SubmitBtn = Instance.new("TextButton")
+    SubmitBtn.Parent = KeyFrame
+    SubmitBtn.BackgroundColor3 = Color3.fromRGB(50, 200, 100)
+    SubmitBtn.Position = UDim2.new(0.1, 0, 0.7, 0)
+    SubmitBtn.Size = UDim2.new(0.8, 0, 0, 35)
+    SubmitBtn.Font = Enum.Font.GothamBold
+    SubmitBtn.Text = "បញ្ជាក់ (Submit)"
+    SubmitBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SubmitBtn.TextSize = 14
+
+    SubmitBtn.MouseButton1Click:Connect(function()
+        if Box.Text == "AIZEN999" then
+            enteredCorrectKey = true
+            KeyGui:Destroy()
+        else
+            SubmitBtn.Text = "❌ លេខកូដខុស! (ខំប្រឹងឡើង)"
+            task.wait(1)
+            SubmitBtn.Text = "បញ្ជាក់ (Submit)"
+        end
+    end)
+end)
+
+-- រង់ចាំរហូតទាល់តែអ្នកបញ្ចូលលេខកូដត្រូវទើបដំណើរការផ្ទាំងមេ
+repeat task.wait() until enteredCorrectKey
+
+-- ផ្ទៀងផ្ទាត់ថាតើ GUI ធ្លាប់មានឬនៅ
 if CoreGui:FindFirstChild("StealAnEggKhmerGUI") then
     CoreGui.StealAnEggKhmerGUI:Destroy()
 end
@@ -13,7 +86,7 @@ MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
 MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
 MainFrame.Position = UDim2.new(0.5, -175, 0.5, -175)
-MainFrame.Size = UDim2.new(0, 350, 0, 350)
+MainFrame.Size = UDim2.new(0, 350, 0, 380)
 MainFrame.Active = true
 MainFrame.Draggable = true
 
@@ -26,13 +99,35 @@ Title.Parent = MainFrame
 Title.BackgroundColor3 = Color3.fromRGB(45, 45, 65)
 Title.Size = UDim2.new(1, 0, 0, 45)
 Title.Font = Enum.Font.GothamBold
-Title.Text = "🥚 STEAL AN EGG - ម៉ូដខ្មែរ (Fixed)"
+Title.Text = "🥚 STEAL AN EGG - AI ZEN MOD"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.TextSize = 16
+Title.TextSize = 15
 
 local TitleCorner = Instance.new("UICorner")
 TitleCorner.CornerRadius = UDim.new(0, 10)
 TitleCorner.Parent = Title
+
+--  nút សញ្ញាដក ( Minimize `-` )
+local MinBtn = Instance.new("TextButton")
+MinBtn.Parent = MainFrame
+MinBtn.BackgroundColor3 = Color3.fromRGB(220, 150, 30)
+MinBtn.Position = UDim2.new(1, -70, 0, 8)
+MinBtn.Size = UDim2.new(0, 25, 0, 25)
+MinBtn.Font = Enum.Font.GothamBold
+MinBtn.Text = "-"
+MinBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+MinBtn.TextSize = 16
+
+-- nút ខ្វែង ( Close `X` )
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Parent = MainFrame
+CloseBtn.BackgroundColor3 = Color3.fromRGB(220, 50, 50)
+CloseBtn.Position = UDim2.new(1, -35, 0, 8)
+CloseBtn.Size = UDim2.new(0, 25, 0, 25)
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.Text = "X"
+CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseBtn.TextSize = 14
 
 local Scroll = Instance.new("ScrollingFrame")
 Scroll.Parent = MainFrame
@@ -40,8 +135,8 @@ Scroll.Active = true
 Scroll.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
 Scroll.BackgroundTransparency = 1
 Scroll.Position = UDim2.new(0, 10, 0, 55)
-Scroll.Size = UDim2.new(0, 330, 0, 280)
-Scroll.CanvasSize = UDim2.new(0, 0, 0, 300)
+Scroll.Size = UDim2.new(0, 330, 0, 315)
+Scroll.CanvasSize = UDim2.new(0, 0, 0, 350)
 Scroll.ScrollBarThickness = 4
 
 local UIListLayout = Instance.new("UIListLayout")
@@ -49,10 +144,25 @@ UIListLayout.Parent = Scroll
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 10)
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+-- បفن្ដាប់មុខងារ Minimize (-) និង Close (X)
+local minimized = false
+MinBtn.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    Scroll.Visible = not minimized
+    if minimized then
+        MainFrame.Size = UDim2.new(0, 350, 0, 45)
+        MinBtn.Text = "+"
+    else
+        MainFrame.Size = UDim2.new(0, 350, 0, 380)
+        MinBtn.Text = "-"
+    end
+end)
 
--- មុខងារទី ១៖ ចាប់យកស៊ុតស្វ័យប្រវត្តិ (Teleport/Touch Approach)
+CloseBtn.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+-- មុខងារទី ១៖ ចាប់យកស៊ុតស្វ័យប្រវត្តិ (Auto Steal Eggs)
 local BtnAutoSteal = Instance.new("TextButton")
 BtnAutoSteal.Parent = Scroll
 BtnAutoSteal.BackgroundColor3 = Color3.fromRGB(50, 150, 250)
@@ -79,14 +189,13 @@ BtnAutoSteal.MouseButton1Click:Connect(function()
                     if char and char:FindFirstChild("HumanoidRootPart") then
                         for _, v in pairs(workspace:GetDescendants()) do
                             if v:IsA("BasePart") and (v.Name:lower():find("egg") or v.Name:lower():find("collect") or v.Name:lower():find("drop")) then
-                                -- ទាញយកដោយប្តូរទីតាំងទៅជិត (Safe Teleport Touch)
                                 firetouchinterest(char.HumanoidRootPart, v, 0)
                                 firetouchinterest(char.HumanoidRootPart, v, 1)
                             end
                         end
                     end
                 end)
-                task.wait(0.3)
+                task.wait(0.2)
             end
         end)
     else
@@ -95,7 +204,59 @@ BtnAutoSteal.MouseButton1Click:Connect(function()
     end
 end)
 
--- មុខងារទី ២៖ រត់លឿន (Super Speed)
+-- មុខងារទី ២៖ ហោះហើរស្វ័យប្រវត្តិ (Auto Fly)
+local BtnFly = Instance.new("TextButton")
+BtnFly.Parent = Scroll
+BtnFly.BackgroundColor3 = Color3.fromRGB(50, 200, 180)
+BtnFly.Size = UDim2.new(1, -10, 0, 40)
+BtnFly.Font = Enum.Font.GothamBold
+BtnFly.Text = "🛸 ហោះហើរស្វ័យប្រវត្តិ (OFF)"
+BtnFly.TextColor3 = Color3.fromRGB(255, 255, 255)
+BtnFly.TextSize = 14
+
+local BtnCornerFly = Instance.new("UICorner")
+BtnCornerFly.CornerRadius = UDim.new(0, 6)
+BtnCornerFly.Parent = BtnFly
+
+local flyEnabled = false
+local bg, bv
+BtnFly.MouseButton1Click:Connect(function()
+    flyEnabled = not flyEnabled
+    local char = LocalPlayer.Character
+    if flyEnabled then
+        BtnFly.Text = "🛸 ហោះហើរស្វ័យប្រវត្តិ (ON)"
+        BtnFly.BackgroundColor3 = Color3.fromRGB(50, 200, 100)
+        task.spawn(function()
+            pcall(function()
+                local root = char:FindFirstChild("HumanoidRootPart")
+                if root then
+                    bg = Instance.new("BodyGyro", root)
+                    bg.P = 9e4
+                    bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+                    bg.cframe = root.CFrame
+                    
+                    bv = Instance.new("BodyVelocity", root)
+                    bv.velocity = Vector3.new(0, 0.1, 0)
+                    bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
+                    
+                    while flyEnabled do
+                        local cam = workspace.CurrentCamera
+                        bv.velocity = cam.CoordinateFrame.LookVector * 50
+                        bg.cframe = cam.CoordinateFrame
+                        task.wait()
+                    end
+                end
+            end)
+        end)
+    else
+        BtnFly.Text = "🛸 ហោះហើរស្វ័យប្រវត្តិ (OFF)"
+        BtnFly.BackgroundColor3 = Color3.fromRGB(50, 200, 180)
+        if bg then bg:Destroy() end
+        if bv then bv:Destroy() end
+    end
+end)
+
+-- មុខងារទី ៣៖ រត់លឿន (Super Speed)
 local BtnSpeed = Instance.new("TextButton")
 BtnSpeed.Parent = Scroll
 BtnSpeed.BackgroundColor3 = Color3.fromRGB(250, 130, 40)
@@ -118,10 +279,7 @@ BtnSpeed.MouseButton1Click:Connect(function()
         task.spawn(function()
             while speedEnabled do
                 pcall(function()
-                    local char = LocalPlayer.Character
-                    if char and char:FindFirstChild("Humanoid") then
-                        char.Humanoid.WalkSpeed = 80
-                    end
+                    LocalPlayer.Character.Humanoid.WalkSpeed = 90
                 end)
                 task.wait(0.2)
             end
@@ -135,7 +293,7 @@ BtnSpeed.MouseButton1Click:Connect(function()
     end
 end)
 
--- មុខងារទី ៣៖ លោតខ្ពស់ (Super Jump)
+-- មុខងារទី ៤៖ លោតខ្ពស់ (Super Jump)
 local BtnJump = Instance.new("TextButton")
 BtnJump.Parent = Scroll
 BtnJump.BackgroundColor3 = Color3.fromRGB(150, 50, 250)
@@ -158,11 +316,8 @@ BtnJump.MouseButton1Click:Connect(function()
         task.spawn(function()
             while jumpEnabled do
                 pcall(function()
-                    local char = LocalPlayer.Character
-                    if char and char:FindFirstChild("Humanoid") then
-                        char.Humanoid.UseJumpPower = true
-                        char.Humanoid.JumpPower = 120
-                    end
+                    LocalPlayer.Character.Humanoid.UseJumpPower = true
+                    LocalPlayer.Character.Humanoid.JumpPower = 150
                 end)
                 task.wait(0.2)
             end
@@ -176,7 +331,7 @@ BtnJump.MouseButton1Click:Connect(function()
     end
 end)
 
--- មុខងារទី ៤៖ ប្រមូលប្រាក់/Coins ស្វ័យប្រវត្តិ
+-- មុខងារទី ៥៖ ប្រមូលប្រាក់/Coins ស្វ័យប្រវត្តិ
 local BtnCoins = Instance.new("TextButton")
 BtnCoins.Parent = Scroll
 BtnCoins.BackgroundColor3 = Color3.fromRGB(220, 180, 20)
@@ -209,7 +364,7 @@ BtnCoins.MouseButton1Click:Connect(function()
                         end
                     end
                 end)
-                task.wait(0.5)
+                task.wait(0.3)
             end
         end)
     else
@@ -218,5 +373,4 @@ BtnCoins.MouseButton1Click:Connect(function()
     end
 end)
 
-print("Script Steal an Egg Fixed loaded successfully!")
-
+print("AI ZEN Script fully loaded with Key System & Minimize options!")
