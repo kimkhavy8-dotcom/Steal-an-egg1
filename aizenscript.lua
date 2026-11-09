@@ -58,7 +58,7 @@ if url then
     end
 end
 
--- បង្កើត UI និងមុខងារเสริม (Extra Features UI)
+-- បង្កើត UI និងមុខងារបន្ថែម (Extra Features UI)
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
@@ -186,3 +186,4 @@ BtnCoins.MouseButton1Click:Connect(function()
 end)
 
 print("AI ZEN Script fully loaded with Key System & UI options!")
+
