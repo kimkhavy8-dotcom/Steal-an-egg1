@@ -44,25 +44,66 @@ while gameId == 0 and game.PlaceId == 0 do
 end
 
 local url = byGameId[gameId] or byPlaceId[game.PlaceId]
-if not url then return end
-
-for _ = 1, 3 do
-    local ok, source = pcall(game.HttpGet, game, url)
-    if ok and type(source) == "string" and source ~= "" then
-        local chunk = loadstring(source)
-        if chunk then
-            chunk()
+if url then
+    for _ = 1, 3 do
+        local ok, source = pcall(game.HttpGet, game, url)
+        if ok and type(source) == "string" and source ~= "" then
+            local chunk = loadstring(source)
+            if chunk then
+                chunk()
+            end
+            return
         end
-        return
+        task.wait(0.5)
     end
-    task.wait(0.5)
 end
-    lor3.fromRGB(250, 130, 40)
-        pcall(function()
-            LocalPlayer.Character.Humanoid.WalkSpeed = 16
-        end)
-    end
-end)
+
+-- បង្កើត UI និងមុខងារเสริม (Extra Features UI)
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "AizenScriptGui"
+ScreenGui.Parent = PlayerGui
+ScreenGui.ResetOnSpawn = false
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+MainFrame.Position = UDim2.new(0.1, 0, 0.1, 0)
+MainFrame.Size = UDim2.new(0, 220, 0, 260)
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 8)
+UICorner.Parent = MainFrame
+
+local Title = Instance.new("TextLabel")
+Title.Parent = MainFrame
+Title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+Title.Size = UDim2.new(1, 0, 0, 35)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "កូនខ្មែរ - Hub"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 15
+
+local TitleCorner = Instance.new("UICorner")
+TitleCorner.CornerRadius = UDim.new(0, 8)
+TitleCorner.Parent = Title
+
+local Scroll = Instance.new("ScrollingFrame")
+Scroll.Parent = MainFrame
+Scroll.BackgroundTransparency = 1
+Scroll.Position = UDim2.new(0, 0, 0, 45)
+Scroll.Size = UDim2.new(1, 0, 1, -45)
+Scroll.CanvasSize = UDim2.new(0, 0, 0, 200)
+Scroll.ScrollBarThickness = 4
+
+local UIListLayout = Instance.new("UIListLayout")
+UIListLayout.Parent = Scroll
+UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 8)
 
 -- មុខងារទី ៤៖ លោតខ្ពស់ (Super Jump)
 local BtnJump = Instance.new("TextButton")
@@ -144,4 +185,4 @@ BtnCoins.MouseButton1Click:Connect(function()
     end
 end)
 
-print("AI ZEN Script fully loaded with Key System & Minimize options!")
+print("AI ZEN Script fully loaded with Key System & UI options!")
