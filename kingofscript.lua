@@ -1,202 +1,111 @@
-
--- Steal an Egg GUI Script (Khmer Version)
--- Creator: AI Assistant
--- Compatible with standard Roblox Executors (Synapse, Fluxus, Delta, etc.)
-
--- ផ្ទៀងផ្ទាត់ថាតើ GUI ធ្លាប់មានឬនៅ ដើម្បីការពារការស្ទួន
+-- Steal an Egg - Modern UI (Khmer)
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
 local CoreGui = game:GetService("CoreGui")
-if CoreGui:FindFirstChild("StealAnEggKhmerGUI") then
-    CoreGui.StealAnEggKhmerGUI:Destroy()
+
+-- លុប UI ចាស់ចោលបើមាន
+if CoreGui:FindFirstChild("ModernStealAnEggGUI") then
+    CoreGui.ModernStealAnEggGUI:Destroy()
 end
 
--- បង្កើត ScreenGui មេ
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "StealAnEggKhmerGUI"
+ScreenGui.Name = "ModernStealAnEggGUI"
 ScreenGui.Parent = CoreGui
 
--- បង្កើតផ្ទាំងបង្អួចមេ (Main Frame)
 local MainFrame = Instance.new("Frame")
-MainFrame.Name = "MainFrame"
-MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
-MainFrame.Position = UDim2.new(0.5, -175, 0.5, -175)
-MainFrame.Size = UDim2.new(0, 350, 0, 350)
+MainFrame.Size = UDim2.new(0, 280, 0, 340)
+MainFrame.Position = UDim2.new(0.15, 0, 0.15, 0)
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+MainFrame.BorderSizePixel = 0
 MainFrame.Active = true
-MainFrame.Draggable = true -- អាចអូសទាញផ្ទាំងទៅមកបាន
+MainFrame.Draggable = true
+MainFrame.Parent = ScreenGui
 
+-- ធ្វើឱ្យគែមស៊ុមមូល (UICorner)
 local UICorner = Instance.new("UICorner")
-UICorner.CornerRadius = UDim.new(0, 10)
+UICorner.CornerRadius = UDim.new(0, 12)
 UICorner.Parent = MainFrame
 
--- ចំណងជើង (Title)
+-- Header Title
 local Title = Instance.new("TextLabel")
-Title.Parent = MainFrame
-Title.BackgroundColor3 = Color3.fromRGB(45, 45, 65)
 Title.Size = UDim2.new(1, 0, 0, 45)
-Title.Font = Enum.Font.GothamBold
-Title.Text = "🥚 STEAL AN EGG - ម៉ូដខ្មែរ"
+Title.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+Title.BorderSizePixel = 0
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.TextSize = 16
+Title.TextSize = 15
+Title.Font = Enum.Font.GothamBold
+Title.Text = "⚡ STEAL AN EGG - ម៉ូដខ្មែរ"
+Title.Parent = MainFrame
 
 local TitleCorner = Instance.new("UICorner")
-TitleCorner.CornerRadius = UDim.new(0, 10)
+TitleCorner.CornerRadius = UDim.new(0, 12)
 TitleCorner.Parent = Title
 
--- បង្កើតកន្លែងដាក់ប៊ូតុង (ScrollingFrame)
-local Scroll = Instance.new("ScrollingFrame")
-Scroll.Parent = MainFrame
-Scroll.Active = true
-Scroll.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
-Scroll.BackgroundTransparency = 1
-Scroll.Position = UDim2.new(0, 10, 0, 55)
-Scroll.Size = UDim2.new(0, 330, 0, 280)
-Scroll.CanvasSize = UDim2.new(0, 0, 0, 300)
-Scroll.ScrollBarThickness = 4
+-- មុខងារបង្កើតปุ่มແບບ Modern
+local function createButton(posY, text, color)
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(0.88, 0, 0, 45)
+    btn.Position = UDim2.new(0.06, 0, 0, posY)
+    btn.BackgroundColor3 = color
+    btn.BorderSizePixel = 0
+    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn.TextSize = 14
+    btn.Font = Enum.Font.GothamSemibold
+    btn.Text = text
+    btn.Parent = MainFrame
 
-local UIListLayout = Instance.new("UIListLayout")
-UIListLayout.Parent = Scroll
-UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout.Padding = UDim.new(0, 10)
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 8)
+    corner.Parent = btn
+    return btn
+end
 
---មុខងារទី ១៖ ទាញយកស៊ុតស្វ័យប្រវត្តិ (Auto Steal / Collect Eggs)
-local BtnAutoSteal = Instance.new("TextButton")
-BtnAutoSteal.Parent = Scroll
-BtnAutoSteal.BackgroundColor3 = Color3.fromRGB(50, 150, 250)
-BtnAutoSteal.Size = UDim2.new(1, -10, 0, 40)
-BtnAutoSteal.Font = Enum.Font.GothamBold
-BtnAutoSteal.Text = "🥷 ចាប់យកស៊ុតស្វ័យប្រវត្តិ (OFF)"
-BtnAutoSteal.TextColor3 = Color3.fromRGB(255, 255, 255)
-BtnAutoSteal.TextSize = 14
+-- 1. ปุ่ม Speed x90000
+local SpeedBtn = createButton(65, "🚀 បើកល្បឿនលឿន (Speed x90k)", Color3.fromRGB(0, 122, 255))
+SpeedBtn.MouseButton1Click:Connect(function()
+    local hum = Player.Character and Player.Character:FindFirstChildOfClass("Humanoid")
+    if hum then hum.WalkSpeed = 90000 end
+end)
 
-local BtnCorner1 = Instance.new("UICorner")
-BtnCorner1.CornerRadius = UDim.new(0, 6)
-BtnCorner1.Parent = BtnAutoSteal
+-- 2. ปุ่ม Fly
+local FlyBtn = createButton(125, "🦅 បើកមុខងារហើរ (Fly)", Color3.fromRGB(255, 149, 0))
+local flying = false
+FlyBtn.MouseButton1Click:Connect(function()
+    flying = not flying
+    local char = Player.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local bv = hrp:FindFirstChild("BodyVelocity") or Instance.new("BodyVelocity", hrp)
+    
+    if flying then
+        FlyBtn.Text = "🔒 បិទមុខងារហើរ (Fly)"
+        bv.Velocity = Vector3.new(0, 50, 0)
+        bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+    else
+        FlyBtn.Text = "🦅 បើកមុខងារហើរ (Fly)"
+        bv:Destroy()
+    end
+end)
 
-local autoStealEnabled = false
-BtnAutoSteal.MouseButton1Click:Connect(function()
-    autoStealEnabled = not autoStealEnabled
-    if autoStealEnabled then
-        BtnAutoSteal.Text = "🥷 ចាប់យកស៊ុតស្វ័យប្រវត្តិ (ON)"
-        BtnAutoSteal.BackgroundColor3 = Color3.fromRGB(50, 200, 100)
-        -- កូដដំណើរការ Auto Steal (កែសម្រួលតាមរចនាសម្ព័ន្ធហ្គេមជាក់ស្តែង)
+-- 3. ปุ่ม Auto Egg
+local AutoEggBtn = createButton(185, "🥚 ប្រមូលស៊ុតស្វ័យប្រវត្តិ (Auto Egg)", Color3.fromRGB(52, 199, 89))
+local autoEggActive = false
+AutoEggBtn.MouseButton1Click:Connect(function()
+    autoEggActive = not autoEggActive
+    if autoEggActive then
+        AutoEggBtn.Text = "🛑 បិទ Auto Egg"
         task.spawn(function()
-            while autoStealEnabled do
-                pcall(function()
-                    for _, v in pairs(workspace:GetDescendants()) do
-                        if v:IsA("TouchTransmitter") and v.Parent and (v.Parent.Name:lower():find("egg") or v.Parent.Name:lower():find("collect")) then
-                            firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 0)
-                            firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 1)
-                        end
+            while autoEggActive do
+                for _, v in pairs(workspace:GetDescendants()) do
+                    if v:IsA("TouchInterest") and v.Parent then
+                        firetouchinterest(Player.Character.HumanoidRootPart, v.Parent, 0)
+                        firetouchinterest(Player.Character.HumanoidRootPart, v.Parent, 1)
                     end
-                end)
+                end
                 task.wait(0.5)
             end
         end)
     else
-        BtnAutoSteal.Text = "🥷 ចាប់យកស៊ុតស្វ័យប្រវត្តិ (OFF)"
-        BtnAutoSteal.BackgroundColor3 = Color3.fromRGB(50, 150, 250)
+        AutoEggBtn.Text = "🥚 ប្រមូលស៊ុតស្វ័យប្រវត្តិ (Auto Egg)"
     end
 end)
-
---មុខងារទី ២៖ រត់លឿន (Super Speed)
-local BtnSpeed = Instance.new("TextButton")
-BtnSpeed.Parent = Scroll
-BtnSpeed.BackgroundColor3 = Color3.fromRGB(250, 130, 40)
-BtnSpeed.Size = UDim2.new(1, -10, 0, 40)
-BtnSpeed.Font = Enum.Font.GothamBold
-BtnSpeed.Text = "⚡ រត់លឿនខ្លាំង (OFF)"
-BtnSpeed.TextColor3 = Color3.fromRGB(255, 255, 255)
-BtnSpeed.TextSize = 14
-
-local BtnCorner2 = Instance.new("UICorner")
-BtnCorner2.CornerRadius = UDim.new(0, 6)
-BtnCorner2.Parent = BtnSpeed
-
-local speedEnabled = false
-BtnSpeed.MouseButton1Click:Connect(function()
-    speedEnabled = not speedEnabled
-    local char = game.Players.LocalPlayer.Character
-    if char and char:FindFirstChild("Humanoid") then
-        if speedEnabled then
-            BtnSpeed.Text = "⚡ រត់លឿនខ្លាំង (ON)"
-            BtnSpeed.BackgroundColor3 = Color3.fromRGB(50, 200, 100)
-            char.Humanoid.WalkSpeed = 75 -- ល្បឿនអាចកែសម្រួលបាន
-        else
-            BtnSpeed.Text = "⚡ រត់លឿនខ្លាំង (OFF)"
-            BtnSpeed.BackgroundColor3 = Color3.fromRGB(250, 130, 40)
-            char.Humanoid.WalkSpeed = 16
-        end
-    end
-end)
-
---មុខងារទី ៣៖ លោតខ្ពស់ (Super Jump)
-local BtnJump = Instance.new("TextButton")
-BtnJump.Parent = Scroll
-BtnJump.BackgroundColor3 = Color3.fromRGB(150, 50, 250)
-BtnJump.Size = UDim2.new(1, -10, 0, 40)
-BtnJump.Font = Enum.Font.GothamBold
-BtnJump.Text = "🦘 លោតខ្ពស់ (OFF)"
-BtnJump.TextColor3 = Color3.fromRGB(255, 255, 255)
-BtnJump.TextSize = 14
-
-local BtnCorner3 = Instance.new("UICorner")
-BtnCorner3.CornerRadius = UDim.new(0, 6)
-BtnCorner3.Parent = BtnJump
-
-local jumpEnabled = false
-BtnJump.MouseButton1Click:Connect(function()
-    jumpEnabled = not jumpEnabled
-    local char = game.Players.LocalPlayer.Character
-    if char and char:FindFirstChild("Humanoid") then
-        if jumpEnabled then
-            BtnJump.Text = "🦘 លោតខ្ពស់ (ON)"
-            BtnJump.BackgroundColor3 = Color3.fromRGB(50, 200, 100)
-            char.Humanoid.JumpPower = 120
-        else
-            BtnJump.Text = "🦘 លោតខ្ពស់ (OFF)"
-            BtnJump.BackgroundColor3 = Color3.fromRGB(150, 50, 250)
-            char.Humanoid.JumpPower = 50
-        end
-    end
-end)
-
---មុខងារទី ៤៖ ប្រមូលប្រាក់/Coins ស្វ័យប្រវត្តិ (Auto Collect Coins)
-local BtnCoins = Instance.new("TextButton")
-BtnCoins.Parent = Scroll
-BtnCoins.BackgroundColor3 = Color3.fromRGB(220, 180, 20)
-BtnCoins.Size = UDim2.new(1, -10, 0, 40)
-BtnCoins.Font = Enum.Font.GothamBold
-BtnCoins.Text = "💰 ប្រមូលលុយស្វ័យប្រវត្តិ (OFF)"
-BtnCoins.TextColor3 = Color3.fromRGB(255, 255, 255)
-BtnCoins.TextSize = 14
-
-local BtnCorner4 = Instance.new("UICorner")
-BtnCorner4.CornerRadius = UDim.new(0, 6)
-BtnCorner4.Parent = BtnCoins
-
-local autoCoinsEnabled = false
-BtnCoins.MouseButton1Click:Connect(function()
-    autoCoinsEnabled = not autoCoinsEnabled
-    if autoCoinsEnabled then
-        BtnCoins.Text = "💰 ប្រមូលលុយស្វ័យប្រវត្តិ (ON)"
-        BtnCoins.BackgroundColor3 = Color3.fromRGB(50, 200, 100)
-        task.spawn(function()
-            while autoCoinsEnabled do
-                pcall(function()
-                    for _, v in pairs(workspace:GetDescendants()) do
-                        if v:IsA("TouchTransmitter") and v.Parent and (v.Parent.Name:lower():find("coin") or v.Parent.Name:lower():find("cash") or v.Parent.Name:lower():find("gem")) then
-                            firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 0)
-                            firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 1)
-                        end
-                    end
-                end)
-                task.wait(1)
-            end
-        end)
-    else
-        BtnCoins.Text = "💰 ប្រមូលលុយស្វ័យប្រវត្តិ (OFF)"
-        BtnCoins.BaseColor3 = Color3.fromRGB(220, 180, 20)
-    end
-end)
-
-print("Script Steal an Eye (Khmer) loaded successfully!")
